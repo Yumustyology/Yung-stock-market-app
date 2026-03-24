@@ -15,8 +15,16 @@ if(!cached) {
     cached = global.mongooseCache = { conn: null, promise: null };
 }
 
+const normalizeMongoUri = (value?: string) => {
+    if (!value) return null;
+
+    const trimmed = value.trim().replace(/^['\"]|['\"]$/g, '');
+    const match = trimmed.match(/mongodb(?:\+srv)?:\/\/\S+/);
+    return match?.[0] ?? null;
+};
+
 export const connectToDatabase = async () => {
-    const uri = MONGODB_URI?.trim();
+    const uri = normalizeMongoUri(MONGODB_URI);
     if(!uri) throw new Error('MONGODB_URI must be set within .env');
 
     if(cached.conn) return cached.conn;
