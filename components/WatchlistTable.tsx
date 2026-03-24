@@ -9,17 +9,24 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { WATCHLIST_TABLE_HEADER } from '@/lib/constants';
-import { Button } from './ui/button';
 import WatchlistButton  from './WatchlistButton';
 import { useRouter } from 'next/navigation';
 import { cn, getChangeColorClass } from '@/lib/utils';
+import { useState } from 'react';
 
 export function WatchlistTable({ watchlist }: WatchlistTableProps) {
   const router = useRouter();
+  const [rows, setRows] = useState(watchlist);
+
+  const handleWatchlistChange = (symbol: string, isAdded: boolean) => {
+    if (!isAdded) {
+      setRows((prev) => prev.filter((item) => item.symbol !== symbol));
+    }
+  };
 
   return (
     <>
-      <Table className='scrollbar-hide-default watchlist-table'>
+      <Table className='scrollbar-hide-default watchlist-table' role='region' aria-label='Watchlist table'>
         <TableHeader>
           <TableRow className='table-header-row'>
             {WATCHLIST_TABLE_HEADER.map((label) => (
@@ -30,7 +37,7 @@ export function WatchlistTable({ watchlist }: WatchlistTableProps) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {watchlist.map((item, index) => (
+          {rows.map((item, index) => (
             <TableRow
               key={item.symbol + index}
               className='table-row'
@@ -67,6 +74,7 @@ export function WatchlistTable({ watchlist }: WatchlistTableProps) {
                   isInWatchlist={true}
                   showTrashIcon={true}
                   type='icon'
+                  onWatchlistChange={handleWatchlistChange}
                 />
               </TableCell>
             </TableRow>

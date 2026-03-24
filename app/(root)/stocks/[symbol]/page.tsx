@@ -11,6 +11,17 @@ import {
   COMPANY_FINANCIALS_WIDGET_CONFIG,
 } from "@/lib/constants";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+
+export async function generateMetadata({ params }: StockDetailsPageProps): Promise<Metadata> {
+  const { symbol } = await params;
+  const stockData = await getStocksDetails(symbol.toUpperCase());
+  const company = stockData?.company ?? symbol.toUpperCase();
+  return {
+    title: `${company} (${symbol.toUpperCase()}) | Signalist`,
+    description: `View real-time charts, technical analysis and company financials for ${company}.`,
+  };
+}
 
 export default async function StockDetails({ params }: StockDetailsPageProps) {
   const { symbol } = await params;

@@ -265,11 +265,20 @@
   .watchlist-empty {
     @apply flex flex-col items-center justify-center text-center;
   }
+  .watchlist-empty-card {
+    @apply rounded-2xl border border-gray-700 bg-gradient-to-b from-gray-800 to-gray-900 px-6 py-10 md:px-10;
+  }
+  .watchlist-star-shell {
+    @apply mb-4 rounded-full border border-gray-600 bg-gray-800/80 p-4;
+  }
   .watchlist-star {
-    @apply h-16 w-16 text-gray-500 mb-4;
+    @apply h-10 w-10 text-yellow-500;
   }
   .empty-title {
-    @apply text-xl font-semibold text-gray-400 mb-2;
+    @apply text-xl font-semibold text-gray-100 mb-2;
+  }
+  .empty-kicker {
+    @apply text-sm uppercase tracking-wider text-yellow-500 mb-3;
   }
   .empty-description {
     @apply text-gray-500 mb-6 max-w-md;

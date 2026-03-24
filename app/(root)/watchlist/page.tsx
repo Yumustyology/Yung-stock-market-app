@@ -3,6 +3,12 @@ import { searchStocks } from '@/lib/actions/finnhub.actions';
 import SearchCommand from '@/components/SearchCommand';
 import { getWatchlistWithData } from '@/lib/actions/watchlist.actions';
 import { WatchlistTable } from '@/components/WatchlistTable';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Watchlist | Signalist',
+  description: 'Track and manage your personal stock watchlist.',
+};
 
 const Watchlist = async () => {
   const watchlist = await getWatchlistWithData();
@@ -12,14 +18,19 @@ const Watchlist = async () => {
   if (watchlist.length === 0) {
     return (
       <section className="flex watchlist-empty-container">
-        <div className="watchlist-empty">
-          <Star className="watchlist-star" />
+        <div className="watchlist-empty watchlist-empty-card">
+          <div className="watchlist-star-shell">
+            <Star className="watchlist-star" />
+          </div>
           <h2 className="empty-title">Your watchlist is empty</h2>
+          <p className="empty-kicker">Start tracking your favorite companies</p>
           <p className="empty-description">
             Start building your watchlist by searching for stocks and clicking the star icon to add them.
           </p>
         </div>
-        <SearchCommand initialStocks={initialStocks} />
+        <div className="flex items-center justify-center">
+          <SearchCommand initialStocks={initialStocks} label="Find stocks" />
+        </div>
       </section>
     );
   }

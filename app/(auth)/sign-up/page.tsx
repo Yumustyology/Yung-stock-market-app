@@ -7,8 +7,7 @@ import SelectField from "@/components/forms/SelectField";
 import { Button } from "@/components/ui/button";
 import { signUpWithEmail } from "@/lib/actions/auth.actions";
 import { INVESTMENT_GOALS, PREFERRED_INDUSTRIES, RISK_TOLERANCE_OPTIONS } from "@/lib/constants";
-import { sendSignUpEmail } from "@/lib/inngest/functions";
-import  { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form"
 import { toast } from "sonner";
 
@@ -40,9 +39,14 @@ const SignUp = () => {
 
     const onSubmit  = async (data:SignUpFormData) => {
         try{
-            // signupwith email sevr ver action...
             const result = await signUpWithEmail(data);
-            if(result.success) router.push('/sign-in');  
+            if (result.success) {
+                router.push('/sign-in');
+            } else {
+                toast.error('Sign up failed', {
+                    description: result.error || 'Failed to create an account.',
+                });
+            }
         }
         catch (e) {
             console.error(e);
@@ -64,6 +68,7 @@ const SignUp = () => {
                     name="fullName"
                     label="Full Name"
                     placeholder="John Doe"
+                    autoComplete="name"
                     register={register}
                     error={errors.fullName}
                     validation={{ required: 'Full name is required', minLength: 2 }}
@@ -73,6 +78,8 @@ const SignUp = () => {
                     name="email"
                     label="Email"
                     placeholder="chellani.ma@northeastern.edu"
+                    type="email"
+                    autoComplete="email"
                     register={register}
                     error={errors.email}
                     validation={{ required: 'Email name is required', pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, message: 'Email address is required' }}
@@ -83,6 +90,7 @@ const SignUp = () => {
                     label="Password"
                     placeholder="Enter a strong password"
                     type="password"
+                    autoComplete="new-password"
                     register={register}
                     error={errors.password}
                     validation={{ required: 'Password is required', minLength: 8 }}

@@ -37,6 +37,7 @@ import { getStocksDetails } from './finnhub.actions';
 // Add stock to watchlist
 export const addToWatchlist = async (symbol: string, company: string) => {
   try {
+    await connectToDatabase();
     const session = await auth.api.getSession({
       headers: await headers(),
     });
@@ -73,6 +74,7 @@ export const addToWatchlist = async (symbol: string, company: string) => {
 // Remove stock from watchlist
 export const removeFromWatchlist = async (symbol: string) => {
   try {
+    await connectToDatabase();
     const session = await auth.api.getSession({
       headers: await headers(),
     });

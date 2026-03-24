@@ -108,8 +108,11 @@ export default function SearchCommand({
           {label}
         </span>
       ) : (
-        <Button onClick={() => setOpen(true)} className='search-btn'>
+        <Button onClick={() => setOpen(true)} className='search-btn' aria-label="Search stocks (Ctrl+K)">
           {label}
+          <kbd className="hidden sm:inline-flex items-center gap-0.5 ml-2 px-1.5 py-0.5 text-xs font-mono rounded border border-black/20 bg-black/10">
+            ⌘K
+          </kbd>
         </Button>
       )}
       <CommandDialog

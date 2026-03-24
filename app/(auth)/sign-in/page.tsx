@@ -4,10 +4,9 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import InputField from '@/components/forms/InputField';
 import FooterLink from '@/components/forms/FooterLink';
-import {signInWithEmail, signUpWithEmail} from "@/lib/actions/auth.actions";
-import {toast} from "sonner";
-import {signInEmail} from "better-auth/api";
-import {useRouter} from "next/navigation";
+import { signInWithEmail } from "@/lib/actions/auth.actions";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const SignIn = () => {
     const router = useRouter()
@@ -26,7 +25,13 @@ const SignIn = () => {
     const onSubmit = async (data: SignInFormData) => {
         try {
             const result = await signInWithEmail(data);
-            if(result.success) router.push('/');
+            if (result.success) {
+                router.push('/');
+            } else {
+                toast.error('Sign in failed', {
+                    description: result.error || 'Invalid email or password.',
+                });
+            }
         } catch (e) {
             console.error(e);
             toast.error('Sign in failed', {
@@ -44,6 +49,8 @@ const SignIn = () => {
                     name="email"
                     label="Email"
                     placeholder="chellani.ma@northeatern.edu"
+                    type="email"
+                    autoComplete="email"
                     register={register}
                     error={errors.email}
                     // Allow dots and common characters in local-part; require a TLD of 2+ letters
@@ -61,6 +68,7 @@ const SignIn = () => {
                     label="Password"
                     placeholder="Enter your password"
                     type="password"
+                    autoComplete="current-password"
                     register={register}
                     error={errors.password}
                     validation={{ required: 'Password is required', minLength: 8 }}
